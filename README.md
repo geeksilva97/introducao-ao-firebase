@@ -45,7 +45,7 @@ A demo de Cloud Functions não conta com esse arquivo. Para realizar o teste, ba
 
 
 ## 2. Informações específicas de cada demo
-- [Demo 1 - Sincronia entre nós - Firebase Realtime Databae](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo1/README.md)
+- [Demo 1 - Sincronização entre nós - Firebase Realtime Databae](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo1/README.md)
 - [Demo 2 - Credenciamento - Firebase Realtime Database](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo2/README.md)
 - [Demo 3 - Armazenamento de arquivos - Cloud Storage](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo3/README.md)
 - [Demo 4 - Autenticação - Firebase Authentication](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo4/README.md)

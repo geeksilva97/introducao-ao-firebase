@@ -21,7 +21,7 @@ As funções prasentes são
 - `addCreatedField()`: que será executada quando um novo documento for adicionado à coleção `users`.
 - `enviarEmail()`: que será executada por meio de requisição GET.
 
-Com o deploy das funções realizados, você poderá fazer os testes executando o arquivo `index.html` e submetendo os formulários.
+Com o deploy das funções realizado você poderá fazer os testes executando o arquivo `index.html` e submetendo os formulários.
 
 ## 3. Envio de e-mail
 Para o envio de e-mail está sendo utilizado o `nodemailer` com configuração do SMTP do Gmail, portanto basta colocar as credenciais do Gmail que irá funcionar. No entanto se quiser fazer com um outro servidor de SMTP você pode fazê-lo.
