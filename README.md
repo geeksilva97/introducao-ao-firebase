@@ -50,4 +50,4 @@ A demo de Cloud Functions não conta com esse arquivo. Para realizar o teste, ba
 - [Demo 3 - Armazenamento de arquivos - Cloud Storage](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo3/README.md)
 - [Demo 4 - Autenticação - Firebase Authentication](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo4/README.md)
 - [Demo 5 - Expandindo os horizontes - Cloud Functions](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo5/README.md)
-- [Demo 6 - Flutter com FCM, Crashlytics e Remote Config](https://github.com/geeksilva97/introducao-ao-firebase/blob/master/demo6/README.md)
+- [Demo 6 - Flutter com FCM, Crashlytics e Remote Config](https://github.com/geeksilva97/introducao-ao-firebase/wiki/Baby-Names)
