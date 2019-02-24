@@ -14,8 +14,7 @@ app.get('/', function(request, response, next) {
     response.sendFile(getPathFile('app/painel.html'));
 });
 
-app.get('/credenciamento/:username', function(request, response, next) {
-    console.log(request.params.username);
+app.get('/credenciamento', function(request, response, next) {
     response.sendFile(getPathFile('app/credenciamento.html'));
 })
 
