@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fire Credenciamento - Credenciar</title>
+
+    <!-- <link rel="stylesheet" href="/static/css/yello.css"> -->
+</head>
+<body>
+    <h1>Adicionar participante</h1>
+
+    <form>
+        <label for="nome">Nome</label>
+        <input type="text" name="nome">
+        <label for="email">E-mail</label>
+        <input type="email" name="email">
+
+        <select name="role">
+            <option value="palestrante">Palestrante</option>
+            <option value="espectador">Espectador</option>
+            <option value="organizador">Organizador</option>
+        </select>
+
+        <button>Registrar</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script src="/static/js/fire-conf.js"></script>
+    <script>
+
+        const cleanFields = (fields) => {
+            Array.from(document.querySelectorAll('input')).forEach(input => input.value ='');
+        };
+
+        const button = document.querySelector('button');
+
+        let participanteRef = firebase.database().ref('participante');
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const data = {
+                nome: document.querySelector('input[name=nome]').value,
+                email: document.querySelector('input[name=email]').value,
+                role: document.querySelector('select[name=role]').value,
+                usuario: 'edy',
+                rg: '',
+                cpf: ''
+            };
+
+            const key = data.nome.replace(/[^a-z]/ig, '').replace(/\s/ig, '').toLowerCase();
+            participanteRef.child(key).set(data);
+            cleanFields();
+
+        }, false);
+
+        
+    </script>
+</body>
+</html>

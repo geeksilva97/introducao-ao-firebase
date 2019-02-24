@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fire Drive</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Firesbase Storage Demo</h1>
+
+    <label for="file">Selecione um arquivo:</label>
+    <input type="file" name="file">
+    
+    <button name="upload-progress">Upload</button>
+
+
+    <h2>Files</h2>
+    <div class="files">
+       
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script src="/static/js/fire-conf.js"></script>
+    <script src="/static/js/functions.js"></script>
+    <script>
+        const buttonProgress = document.querySelector('button[name=upload-progress]');
+        const inputfile = document.querySelector('input[name=file]');
+        const filesContainer = document.querySelector('.files');
+        let linkDelete = document.querySelectorAll('.file .delete');
+
+        const storageRef = firebase.storage().ref('uploads');
+        const filesRef = firebase.database().ref('files');
+
+
+
+        filesRef.on('value', function(snapshot) {
+            filesContainer.innerHTML = '';
+            snapshot.forEach(doc => {
+                const _file = doc.val();
+                filesContainer.appendChild(
+                    createFileContainer(_file, deleteFile, doc.key)
+                );
+            });
+        });
+
+
+
+
+
+        buttonProgress.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const file = inputfile.files[0];
+            const uploadTask = storageRef.child(file.name).put(file);
+
+            uploadTask.on('state_changed', function(snapshot){
+                let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                const text = `Upload is ${progress.toFixed(2)}% done`;
+                console.log(text);
+                buttonProgress.innerHTML = text;
+
+                switch(snapshot.state){
+                    case firebase.storage.TaskState.PAUSED:
+                        console.log('upload is paused');
+                    break;
+
+                    case firebase.storage.TaskState.RUNNING:
+                        console.log('Upload is running');
+                    break;
+                }
+            }, function(error) {
+
+            }, function() {
+                buttonProgress.innerHTML = 'Upload';
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    const key = filesRef.child('file').push().key;
+
+                    filesRef.child(key).set({
+                        uploadDate: (new Date()).getTime(),
+                        filename: file.name,
+                        filesize: file.size,
+                        filetype: file.type,
+                        downloadURL: downloadURL,
+                        fullPath: uploadTask.snapshot.ref.fullPath
+                    });
+
+                    console.log('File available at', downloadURL);
+                });
+            });
+
+        }, false);
+
+    </script>
+</body>
+</html>

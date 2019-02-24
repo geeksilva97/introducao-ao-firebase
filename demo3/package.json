@@ -1,0 +1,23 @@
+{
+  "name": "fire-drive",
+  "version": "1.0.0",
+  "description": "Demo do Storage (simulador do Google Drive)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geeksilva97/fire-drive.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geeksilva97/fire-drive/issues"
+  },
+  "homepage": "https://github.com/geeksilva97/fire-drive#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

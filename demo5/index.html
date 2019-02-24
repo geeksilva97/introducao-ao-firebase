@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fire Functions</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Cloud Functions Demo (Realtime Database)</h1>
+    <input type="text" name="message"> <button name="send">Send</button>
+
+    <h1>Cloud Functions Demo (Firestore)</h1>
+    <label for="username">username</label>
+    <input type="text" name="username"> 
+
+    <label for="username">name</label>
+    <input type="text" name="name"> 
+
+    
+    <button name="newuser">new user</button>
+
+    <h1>Cloud Functions Demo (Expandindo os horizontes)</h1>
+    <input type="email" name="dest">
+    <button name="send-mail">Enviar</button>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "...",
+            authDomain: "...",
+            databaseURL: "...",
+            projectId: "...",
+            storageBucket: "...",
+            messagingSenderId: "..."
+        };
+        firebase.initializeApp(config);
+
+        const inputField = document.querySelector('input');
+        let count = 1;
+        const messages = firebase.database().ref('messages');
+        const db = firebase.firestore();
+
+        document.querySelector('button[name=send]').addEventListener('click', function(){
+            messages.child(count++).set({
+                original: inputField.value
+            }, function(complete) {
+                inputField.value = '';
+            });
+        }, false);
+
+
+        const inputName = document.querySelector('input[name=name]');
+        const inputUsername = document.querySelector('input[name=username]');
+
+        document.querySelector('button[name=newuser]').addEventListener('click', function(){
+          db.collection('users').add({
+              name: inputName.value,
+              username: inputUsername.value
+          })
+            .then(docRef => {
+                alert('User adicionado');
+                inputName.value = '';
+                inputUsername.value = '';
+            }).catch(err => {
+                alert('Falha ao adicionar user');
+                console.log(err);
+            });
+        }, false);
+
+
+        const inputDest = document.querySelector('input[name=dest]');
+        document.querySelector('button[name=send-mail]').addEventListener('click', function(){
+            fetch('https://us-central1-happy-todolist.cloudfunctions.net/enviarEmail?dest='+inputDest.value)
+                .then(response => response.text())
+                .then(text => {
+                    alert(text);
+                });
+        }, false);
+    </script>
+</body>
+</html>

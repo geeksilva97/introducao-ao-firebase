@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Node</title>
+
+    <style>
+        html, body {
+            margin:0;
+            padding: 0;
+        }
+        .yourid {
+            /* display: none; */
+        }
+
+        .effect {
+            width: 200px;
+            transition: all .8s linear;
+            opacity: .4;
+        }
+
+        .description {
+            margin: 50px;
+            display: block;
+            font-family: helvetica, sans-serif;
+        }
+
+        .description.with-image {
+            color: #fff;
+        }
+
+        .show {
+            opacity: 1;
+            top: 0;
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="description">
+        <h1>Welcome new node</h1>
+        <p class="yourid"></p>
+    </section>
+
+    <img src="" alt="IMAGEM" class="effect">
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "....",
+        authDomain: "....",
+        databaseURL: "....",
+        projectId: "....",
+        storageBucket: "....",
+        messagingSenderId: "...."
+    };
+    firebase.initializeApp(config);
+
+    const newNodeKey = firebase.database().ref('nodes').child('node').push().key;
+    document.querySelector('.yourid').innerHTML = 'Sei id é '+newNodeKey;
+    let nodes = firebase.database().ref('nodes');
+    nodes.child(newNodeKey).set({
+        image: 'none',
+        online: true,
+        hasimage: false
+    });
+
+    const imageElement = document.querySelector('img');
+
+    nodes.child(newNodeKey).on('child_changed', function(dataSnapshot) {
+        imageElement.classList.remove('show');
+        imageElement.src = '';
+        const image = dataSnapshot.val();
+        imageElement.src = image;
+        imageElement.onload = function(){
+            imageElement.classList.add('show');
+            document.querySelector('.description').style.display = 'none';
+        }
+    })
+
+    nodeRef = nodes.child(newNodeKey).child('online');
+    nodeRef.onDisconnect().set(false);
+    </script>
+</body>
+</html>

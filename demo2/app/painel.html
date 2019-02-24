@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fire Credenciamento - Painel</title>
+
+    <!-- <link rel="stylesheet" href="/static/css/yello.css"> -->
+</head>
+<body>
+    <h1><span class="total"></span> Participantes já credenciados</h1>
+
+    <ul id="lista-participantes"></ul>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script src="/static/js/fire-conf.js"></script>
+    <script>
+
+        const listaParticipantes = document.querySelector('#lista-participantes');
+        let total = 0;
+        let participanteRef = firebase.database().ref('participante');
+        participanteRef.on('value', function(querySnapshot) {
+            listaParticipantes.innerHTML='';
+            total = 0;
+            querySnapshot.forEach(doc => {
+                part = doc.val();
+                listaParticipantes.innerHTML += '<li>'+part.nome+'</li>';
+                total++;
+            });
+            document.querySelector('.total').innerText = total;
+        });
+    </script>
+</body>
+</html>

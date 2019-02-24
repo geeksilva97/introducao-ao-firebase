@@ -1,0 +1,30 @@
+.files {
+    width: 100%;
+    font-family: Roboto, tahoma, sans-serif;
+}
+
+.files > .file {
+    float: left;
+    padding: 10px;
+    width: 200px;
+    box-shadow: inset 0px 0px 10px #333;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+.delete-file {
+    color: red;
+}
+
+.file .title {
+    margin-bottom: .5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+}
+
+.file a {
+    margin-right: 4px;
+}

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Authentication - GDG Fortaleza</title>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+
+    <style>
+        .email-logado {
+            text-decoration: underline;
+        }
+
+        .code-field {
+            display: none;
+        }
+    </style>
+  
+</head>
+<body>
+    <div id="recaptcha-container"></div>
+    <h1>Fire Authentication</h1>
+
+    <fieldset>
+        <legend>E-mail e senha</legend>
+
+        <section class="logado">
+            Olá <span class="email-logado"></span>
+            <a href="javascript:void(0)" class="logout">Sair</a>
+        </section>
+
+        <section class="sem-login">
+            <input type="email" name="email">
+            <input type="password" name="senha">
+    
+            <button name="criar-conta">Criar conta</button>
+            <button name="login">Login</button>
+        </section>
+    </fieldset>
+
+    <br>
+    <br>
+
+    <fieldset>
+        <legend>Telefone</legend>
+
+        <input type="tel" name="telefone" value="+11234567891">
+        <button name="login-fone">Autenticar</button>
+
+        <div class="confirmacao">
+            <input type="text" name="codigo">
+            <button name="confirmar">Confirmar</button>
+        </div>
+
+    </fieldset>
+
+    <br>
+    <br>
+
+    <fieldset>
+        <legend>Redes sociais</legend>
+
+        <button name="login-google">Google</button>
+        <button name="login-facebook">Facebook</button>
+    </fieldset>
+
+    <script>
+
+        const checkUser = () => {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                 console.log(user);
+                 document.querySelector('.sem-login').style.display='none';
+                 document.querySelector('.logado').style.display='initial';
+
+                 let text = '';
+
+                 if(user.displayName){
+                    text = user.displayName + ' - ['+ user.email +']';
+                 }else{
+                     if(user.phoneNumber) {
+                        text = user.phoneNumber;
+                     }else {
+                        text = user.email;
+                     }
+                 }
+
+                 document.querySelector('.email-logado').innerText = text;
+                } else {
+                    document.querySelector('.logado').style.display='none';
+                    document.querySelector('.sem-login').style.display='initial';
+                    document.querySelector('.email-logado').innerText = '';
+                }
+            });
+        };
+
+
+
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyD3tdHh9wYdpPkuP4YGnjkUYeETfct-CiI",
+                authDomain: "happy-todolist.firebaseapp.com",
+                databaseURL: "https://happy-todolist.firebaseio.com",
+                projectId: "happy-todolist",
+                storageBucket: "happy-todolist.appspot.com",
+                messagingSenderId: "1025858187095"
+            };
+            firebase.initializeApp(config);
+            
+            checkUser();
+
+            const buttonCreateAccount = document.querySelector('button[name=criar-conta]');
+            const buttonLogin = document.querySelector('button[name=login]');
+            const buttonLoginGoogle = document.querySelector('button[name=login-google]');
+            const buttonLoginFacebook = document.querySelector('button[name=login-facebook]');
+            const buttonLoginFone = document.querySelector('button[name=login-fone]');
+
+            buttonLogin.addEventListener('click', function(){
+                const data = {
+                    email: document.querySelector('input[name=email]').value,
+                    senha: document.querySelector('input[name=senha]').value
+                };
+                
+                firebase.auth().signInWithEmailAndPassword(data.email, data.senha)
+                    .catch(loginError => {
+                        console.log(loginError);
+                        alert('Falha no login');
+                    });
+
+                
+            }, false);
+
+            document.querySelector('.logout').addEventListener('click', function(){
+                firebase.auth().signOut()
+                    .then(data => {
+                        
+                    });
+            }, false);
+
+            buttonCreateAccount.addEventListener('click', function(){
+                const data = {
+                    email: document.querySelector('input[name=email]').value,
+                    senha: document.querySelector('input[name=senha]').value
+                };
+    
+                firebase.auth().createUserWithEmailAndPassword(data.email, data.senha)
+                    .then(data => {
+                        alert('Conta criada com sucesso');
+                        console.log(data);
+                        
+                    })
+                    .catch(error => {
+                        if(error.code == 'auth/email-already-in-use') {
+                            alert('Esse e-mail já está em uso por outro usuário')
+                        }else{
+                            alert(error.message);
+                        }
+                        console.log(error);
+                    });
+            }, false);
+            
+
+
+            /// TELEFONE
+
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible'
+            });
+
+            
+
+
+            buttonLoginFone.addEventListener('click', function(){
+                firebase.auth().languageCode = 'pt_BR';
+
+                var phoneNumber = document.querySelector('input[name=telefone]').value;
+                var appVerifier = window.recaptchaVerifier;
+                firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+                    .then(function (confirmationResult) {
+                        window.confirmationResult = confirmationResult;
+                    }).catch(function (error) {
+                        window.recaptchaVerifier.render().then(function(widgetId) {
+                           grecaptcha.reset(widgetId);
+                        });
+                    });
+
+                }, false);
+
+          
+            //confirmando
+            document.querySelector('button[name=confirmar]').addEventListener('click', function() {
+                const codigo = document.querySelector('input[name=codigo]').value;
+                if(window.confirmationResult) {
+                    window.confirmationResult.confirm(codigo)
+                        .then(user => {
+                            alert('Tudo certo :)');
+                        }).catch(err => {
+                            alert("Houve um erro.\nCertifique-se de que informou o código corretamente");
+                        });
+                }
+                console.log(window.confirmationResult);
+            }, false);
+
+
+
+
+            
+            /// REDES SOCIAIS
+
+            buttonLoginGoogle.addEventListener('click', function() {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+                provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+                provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
+                firebase.auth().languageCode = 'pt_BR';
+
+                firebase.auth().signInWithPopup(provider)
+                    .then(result => {
+                        const token = result.credential.accessToken;
+                        const user = result.user;
+
+                        console.log(user);
+                    }).catch(err => {
+                        alert('Houve um erro');
+                        console.log({googleError: err});
+                    });
+            }, false);
+
+
+            buttonLoginFacebook.addEventListener('click', function() {
+                const provider = new firebase.auth.FacebookAuthProvider();
+                provider.addScope('email');
+                provider.addScope('user_birthday');
+                provider.addScope('user_friends');
+                               
+                firebase.auth().languageCode = 'pt_BR';
+
+                firebase.auth().signInWithPopup(provider)
+                    .then(result => {
+                        const token = result.credential.accessToken;
+                        const user = result.user;
+
+                        console.log(user);
+                    }).catch(err => {
+                        alert('Houve um erro');
+                        console.log({googleError: err});
+                    });
+            }, false);
+
+            
+
+
+
+
+        </script>
+</body>
+</html>
