@@ -4,11 +4,11 @@ Demos que foram apresentadas no evento **Introdução ao Firebase** organizado p
 **NOTA:** A intenção dessas demos é mostrar as capacidades do Firebase.Não estranhe códigos sem separação de arquivo e nem alguma desorganização que você possa notar. Caso haja algo que você queira melhorar, pode ficar a vontade.
 
 ## 1. Como executar as demos
-Primeiro de tudo você precisará ter uma conta no Firebase e é preciso também que você crie um projeto. Veja como você pode fazer isso [clicanco aqui](https://firebase.google.com/docs/web/setup).
+Primeiro de tudo você precisará ter uma conta no Firebase e é preciso também que você crie um projeto. Veja como você pode fazer isso [clicando aqui](https://firebase.google.com/docs/web/setup).
 
-A maioria das aplicações apresentadas aqui são para web apps e são portanto escritas em **JavaScript**. Além disso é preciso que você tenha o **NodeJS** instalado em sua máquina. Para que assim possa subir o servido e executar a aplicação.
+A maioria das aplicações apresentadas aqui são para web apps e são portanto escritas em **JavaScript**. Além disso é preciso que você tenha o **NodeJS** instalado em sua máquina. Para que assim possa subir o servidor e executar a aplicação.
 
-Para o caso da **Demo 6** você precisará de instruções mais específicas. Veja como fazer essa configuração [clicando aqui](https://).
+Para o caso da **Demo 6** você precisará de instruções mais específicas. Veja como fazer essa configuração [clicando aqui](https://firebase.google.com/docs/flutter/setup?hl=pt-br).
 
 ### 1.1 Instale o NodeJS
 Faça a instalação do Node para que as aplicações funcionem. Para isso basta acessar o link https://nodejs.org/en/
