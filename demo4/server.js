@@ -12,6 +12,11 @@ app.get('/', function(request, response, next) {
     response.sendFile(getPathFile('app/index.html'));
 });
 
+
+app.get('/firestore', function(request, response, next) {
+    response.sendFile(getPathFile('app/firestore.html'));
+});
+
 app.listen(port, function() {
     console.log(`Running at ${port}`)
 });
