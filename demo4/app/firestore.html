@@ -82,9 +82,7 @@
 
                 firebase.auth().createUserWithEmailAndPassword(formData.email, formData.senha)
                     .then(data => {
-                        console.log(formData);
-                        const user = data.user;
-                        const uid = user.uid;
+                        const uid = data.user.uid;
 
                         const users = firebase.firestore().collection('users');
                         users.doc(uid).set({
