@@ -118,9 +118,9 @@
                     try {
                         const doc = await firebase.firestore().doc(`users/${uid}`).get();
                         spanUserInfo.innerHTML = JSON.stringify(doc.data());
-                    }catch(e) {
+                    } catch (e) {
                         spanUserInfo.innerHTML = `Error: ${e}`;
-                    }                                
+                    }
                 });
             });
         });
