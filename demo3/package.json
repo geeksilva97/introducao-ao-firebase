@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/geeksilva97/fire-drive#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.17.3"
   }
 }
